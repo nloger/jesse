@@ -8,7 +8,7 @@ sys.path.insert(0, os.getcwd())
 
 ENV_VALUES = {}
 
-if jh.is_jesse_project():
+if jh.is_jesse_project() or jh.is_unit_testing():
     # load env
     load_dotenv()
 
@@ -24,6 +24,7 @@ if jh.is_jesse_project():
         ENV_VALUES['REDIS_HOST'] = 'localhost'
         ENV_VALUES['REDIS_PORT'] = '6379'
         ENV_VALUES['REDIS_PASSWORD'] = ''
+        ENV_VALUES['PASSWORD'] = 'password'
 
     # validation for existence of .env file
     if len(list(ENV_VALUES.keys())) == 0:
@@ -40,4 +41,5 @@ if jh.is_jesse_project():
         # raise FileNotFoundError('.env file is missing from within your local project. This usually happens when you\'re in the wrong directory. You can create one by running "cp .env.example .env"')
 
     if not jh.is_unit_testing() and ENV_VALUES['PASSWORD'] == '':
-        raise EnvironmentError('You forgot to set the PASSWORD in your .env file')
+        raise EnvironmentError(
+            'You forgot to set the PASSWORD in your .env file')
